@@ -76,13 +76,15 @@ def RepeatedRandom(nums, prepartition):
 def random_neighbor(P):
     n = len(P)
     i = random.randint(0, n - 1)
-    j = random.randint(1, n)
-    while P[i] == j:
-        j = random.randint(1, n)
-    new_P = P.copy()
-    new_P[i] = j
+    j = random.randint(0, n - 1)
 
-    return new_P
+    while j == P[i]:
+        j = random.randint(0, n - 1)
+    
+    P[i] = j
+
+    return P
+
 
 def HillClimbing(nums, prepartition):
     n = len(nums)
@@ -107,7 +109,6 @@ def SimulatedAnnealing(nums, prepartition):
     n = len(nums)
     P = rand_sol(n)
     best_diff = calc_res(nums, P, prepartition)
-    best_P = P
 
     for iter in range(max_iter):
         new_P = random_neighbor(P)
@@ -115,7 +116,6 @@ def SimulatedAnnealing(nums, prepartition):
 
         if temp_diff < best_diff:
             best_diff = temp_diff
-            best_P = P
 
         delta = temp_diff - calc_res(nums, P, prepartition)
         if delta < 0 or random.random() < math.exp(-delta / T(iter)):
