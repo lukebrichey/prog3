@@ -138,6 +138,7 @@ def generate_instances(num_instances=50, file_prefix="instance_"):
 
 def run_experiments(instances):
     algos = {
+        0: Karmarkar_Karp,
         1: RepeatedRandom,
         2: HillClimbing,
         3: SimulatedAnnealing,
@@ -151,7 +152,10 @@ def run_experiments(instances):
     for instance in instances:
         for algo_code, algo_func in algos.items():
             prepartition = algo_code >= 11
-            result = algo_func(instance, prepartition)
+            if algo_code != 0: 
+                result = algo_func(instance, prepartition)
+            else:
+                result = algo_func(instance)
             results[algo_code].append(result)
 
     return results

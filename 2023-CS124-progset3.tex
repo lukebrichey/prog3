@@ -2,6 +2,7 @@
 % \pagestyle{empty}
 
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
 
 \setlength{\oddsidemargin}{-0.25 in}
 \setlength{\evensidemargin}{-0.25 in}
@@ -28,7 +29,7 @@
 	\textbf{Collaborators:} (You shouldn't have any collaborators but the up-to-two of you, but tell us if you did.)
 
 	\textbf{No. of late days used on previous psets: 9}\\
-	\textbf{No. of late days used after including this pset: 10}
+	\textbf{No. of late days used after including this pset: 11}
 
 Homework is due Thursday 2023-04-20 at 11:59pm ET. You are allowed up to {\bf twelve} (college)/{\bf forty} (extension school) late days through the semester, but the number of late days you take on each assignment must be a nonnegative integer at most {\bf two} (college)/{\bf four} (extension school).
 
@@ -245,8 +246,8 @@ $A$ are small enough that arithmetic operations take one step.}
     which will take $O(\log n)$ time. We can then perform the differencing operation
     on these two elements, say $a_i$ and $a_j$ which will take $O(1)$ time. We can 
     then insert these two elements back into the heap, which will take $O(\log n)$ 
-    time. We will continue this process until there remains one nonzero element 
-    in $A$. Since there are $n$ elements in $A$ and our operations take 
+    time. We will continue this process while $A$ has at least 2 elements.
+    Since there are $n$ elements in $A$ and our operations take 
     $O(\log n)$ time, then the runtime of the KK algorithm is $O(n \log n)$. 
 }}
  
@@ -422,7 +423,58 @@ representations, each for at least 25,000 iterations.  Give tables and/or
 graphs
 clearly demonstrating the results.  Compare the
 results and discuss.  }
-\smallskip 
+
+\setlength{\fboxsep}{10pt}
+\fbox{\parbox{0.9\linewidth}{
+    I performed my experiments as described above. I then calculated the average 
+    residue from each of the algorithms for each of the 50 instances as well as 
+    ran each randomized algorithm over 25,000 iterations. Here are the averages 
+    I found:
+
+    \begin{center}
+        \begin{tabular}{ll}
+        \hline
+        Algorithm & Avg. Residue \\
+        \hline
+        Karmarkar-Karp & 366,685.78 \\
+        Repeated Random & 276,406,914.02 \\
+        Hill Climbing & 719,607,853.58 \\
+        Simulated Annealing & 575,873,017.02 \\
+        Prepartitioned Repeated Random & 140.58 \\
+        Prepartitioned Hill Climbing & 182.46 \\
+        Prepartitioned Simulated Annealing &  223.1 \\
+        \hline
+        \end{tabular}
+    \end{center}
+
+    \smallskip 
+
+    We can clearly see that the prepartioned versions of the algorithms performed 
+    much better than the non-prepartitioned versions. A possible explanation for this
+    is that we search over a smaller space when we prepartition the numbers. Normally,
+    we would have to search over subsets. Because of the smaller search, we are able
+    to find more optimal solutions. 
+
+    We can see that for the standard versions, Hill Climbing performed the worst 
+    by far with Repeated Random performing the best. This is interesting, because 
+    intuitively, I would have expected Simulated Annealing to perform the best since
+    it moves closer to a better solution and has a mechanism to escape local minima.
+    So it is really interesting that the Repeated Random algorithm performed the best 
+    in this case, which seems to me is just a testament to the difficulty of the 
+    problem. 
+
+    I found similar results among the prepartitioned versions. Once again, repeated
+    random performed the best, but this time, it was much closer to the other algorithms.
+    I think one possible explanation for this is that the prepartitioned versions
+    are much easier to solve. So the algorithms are able to converge more quickly 
+    and thus end up converging to similar values. We do see that Simulated Annealing
+    performed the worst in this case, perhaps because the random chance of moving 
+    away from an optimal solution ended up harming its performance.
+
+    Finally, we see that the Karmarkar-Karp algorithm performed in the middle of 
+    the group. This makes sense because it is a greedy algorithm that is not
+    randomized and so it just finds an approximate solution.
+}}
 
 For the simulated annealing algorithm, you must choose a {\em cooling
 schedule.}  That is, you must choose a function T(iter).  We suggest
@@ -442,18 +494,21 @@ algorithms, and suggest what effect that might have.
 \fbox{\parbox{0.9\linewidth}{
     \textbf{Solution: }
 
-    Currently, we generate a random solution for each algorithm. We could have a 
+        Currently, we generate a random solution for each algorithm. We could have a 
     much better initial approximation if we ran the Karmarkar-Karp algorithm and
-    used the result as the initial solution for the randomized algorithms. We 
-    would have to edit the KK algorithm slightly to return partitions instead of
-    the residue. We could then use the partitions as the initial solution for the
-    randomized algorithms. 
+    used the result as the initial solution for the randomized algorithms. That way,
+    the randomized algorithms would start closer to the solution state and would 
+    be able to find better solutions, faster. 
 
-    However, this would not affect the repeated random algorithm, since it generates a 
+    \smallskip 
+
+        However, this would not affect the repeated random algorithm, since it generates a 
     random solution each time. As such, the initial solution does not really matter.
-    However, it would affect the hill climbing and simulated annealing algorithms. 
-    They would both start at a state closer to the solution state and then reach 
-    a better solution faster (i.e. would not need as many iterations). 
+    However, it would affect the hill climbing and simulated annealing algorithms
+    since they only accept new solutions if they are better than the current solution.  
+    As such, they would perform better if they ran Karmarkar-Karp first. However,
+    this would increase the runtime of the algorithms, as instead of just generating 
+    random numbers we would have to run all of the Karmarkar-Karp algorithm first.
 
 }}
 
