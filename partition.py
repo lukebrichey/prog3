@@ -20,17 +20,21 @@ def pp(nums, P):
             s2_sum += value
 
     return abs(s1_sum - s2_sum)
+import heapq
 
 def Karmarkar_Karp(nums):
-    heap = nums.copy()
-    heapq._heapify_max(heap)
-    
-    while len(heap) > 1:
-        x = heapq._heappop_max(heap)
-        y = heapq._heappop_max(heap)
-        heapq.heappush(heap, abs(x - y))
+    # Check for empty list.
+    if not nums:
+        raise ValueError("List cannot be empty.")
 
-    return heapq._heappop_max(heap)
+    nums = [-num for num in nums]  
+    heapq.heapify(nums)
+    while len(nums) >= 2:
+        a = -heapq.heappop(nums) 
+        b = -heapq.heappop(nums) 
+        heapq.heappush(nums, -(a - b))  
+
+    return -nums[0]  # Negate back for the final result
 
 
 
