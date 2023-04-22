@@ -449,10 +449,11 @@ algorithms, and suggest what effect that might have.
     the residue. We could then use the partitions as the initial solution for the
     randomized algorithms. 
 
-    This would not affect the repeated random algorithm, since it generates a 
-    random solution each time. However, it would affect the hill climbing and
-    simulated annealing algorithms. They would both start at a state closer to the
-    solution state. 
+    However, this would not affect the repeated random algorithm, since it generates a 
+    random solution each time. As such, the initial solution does not really matter.
+    However, it would affect the hill climbing and simulated annealing algorithms. 
+    They would both start at a state closer to the solution state and then reach 
+    a better solution faster (i.e. would not need as many iterations). 
 
 }}
 

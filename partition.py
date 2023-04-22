@@ -5,6 +5,7 @@ import heapq
 
 max_iter = 25000
 
+# Prepartion function
 def pp(nums, P):
     n = len(nums)
     prepartitions = {i: 0 for i in range(1, n + 1)}
@@ -20,7 +21,23 @@ def pp(nums, P):
             s2_sum += value
 
     return abs(s1_sum - s2_sum)
-import heapq
+
+def calc_res(nums, sol, is_pp):
+    if len(nums) != len(sol):
+        raise ValueError("Array sizes must match.")
+
+    if is_pp:
+        new_nums = [0] * len(nums)
+        for i in range(len(nums)):
+            new_nums[sol[i]] += nums[i]
+        return Karmarkar_Karp(new_nums)
+
+    else:
+        res = 0
+        for i in range(len(nums)):
+            res += nums[i] * (sol[i] if sol[i] != 0 else -1)
+        return abs(res)
+
 
 def Karmarkar_Karp(nums):
     # Check for empty list.
@@ -42,11 +59,11 @@ def rand_sol(n):
 def RepeatedRandom(nums, prepartition):
     n = len(nums)
     P = rand_sol(n)
-    best_diff = pp(nums, P) if prepartition else Karmarkar_Karp(nums)
+    best_diff = calc_res(nums, P, prepartition)
 
     for _ in range(max_iter):
         new_P = rand_sol(n)
-        temp_diff = pp(nums, new_P) if prepartition else Karmarkar_Karp(new_P)
+        temp_diff = calc_res(nums, new_P, prepartition)
 
         if temp_diff < best_diff:
             best_diff = temp_diff
@@ -62,16 +79,17 @@ def random_neighbor(P):
         j = random.randint(1, n)
     new_P = P.copy()
     new_P[i] = j
+
     return new_P
 
 def HillClimbing(nums, prepartition):
     n = len(nums)
     P = rand_sol(n)
-    best_diff = pp(nums, P) if prepartition else Karmarkar_Karp(P)
+    best_diff = calc_res(nums, P, prepartition)
 
     for _ in range(max_iter):
         new_P = random_neighbor(P)
-        temp_diff = pp(nums, new_P) if prepartition else Karmarkar_Karp(new_P)
+        temp_diff = calc_res(nums, new_P, prepartition)
 
         if temp_diff < best_diff:
             best_diff = temp_diff
@@ -86,22 +104,23 @@ def T(iter):
 def SimulatedAnnealing(nums, prepartition):
     n = len(nums)
     P = rand_sol(n)
-    best_diff = pp(nums, P) if prepartition else Karmarkar_Karp(nums)
+    best_diff = calc_res(nums, P, prepartition)
     best_P = P
 
     for iter in range(max_iter):
         new_P = random_neighbor(P)
-        temp_diff = pp(nums, new_P) if prepartition else Karmarkar_Karp(new_P)
+        temp_diff = calc_res(nums, new_P, prepartition)
 
         if temp_diff < best_diff:
             best_diff = temp_diff
             best_P = P
 
-        delta = temp_diff - (pp(nums, P) if prepartition else Karmarkar_Karp(nums))
+        delta = temp_diff - calc_res(nums, P, prepartition)
         if delta < 0 or random.random() < math.exp(-delta / T(iter)):
             P = new_P
 
     return best_diff
+
 
 """
 CODE FOR EXPERIMENTS i.e. FLAG 1
