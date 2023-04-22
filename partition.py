@@ -22,6 +22,7 @@ def pp(nums, P):
 
     return abs(s1_sum - s2_sum)
 
+# Calculate residue 
 def calc_res(nums, sol, is_pp):
     if len(nums) != len(sol):
         raise ValueError("Array sizes must match.")
@@ -35,8 +36,9 @@ def calc_res(nums, sol, is_pp):
     else:
         res = 0
         for i in range(len(nums)):
-            res += nums[i] * (sol[i] if sol[i] != 0 else -1)
+            res += nums[i] * (1 if sol[i] % 2 == 1 else -1)
         return abs(res)
+
 
 
 def Karmarkar_Karp(nums):
