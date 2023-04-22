@@ -29,8 +29,10 @@ def calc_res(nums, sol, is_pp):
 
     if is_pp:
         new_nums = [0] * len(nums)
+        
         for i in range(len(nums)):
-            new_nums[sol[i]] += nums[i]
+            new_nums[sol[i] - 1] += nums[i]
+
         return Karmarkar_Karp(new_nums)
 
     else:
