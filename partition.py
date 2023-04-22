@@ -36,8 +36,6 @@ def Karmarkar_Karp(nums):
 
     return -nums[0]  # Negate back for the final result
 
-
-
 def rand_sol(n):
     return [random.randint(1, n) for _ in range(n)]
 
@@ -69,7 +67,7 @@ def random_neighbor(P):
 def HillClimbing(nums, prepartition):
     n = len(nums)
     P = rand_sol(n)
-    best_diff = pp(nums, P) if prepartition else Karmarkar_Karp(nums)
+    best_diff = pp(nums, P) if prepartition else Karmarkar_Karp(P)
 
     for _ in range(max_iter):
         new_P = random_neighbor(P)
@@ -80,6 +78,7 @@ def HillClimbing(nums, prepartition):
             P = new_P
 
     return best_diff
+
 
 def T(iter):
     return 10**10 * (0.8)**(iter // 300)

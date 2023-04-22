@@ -438,6 +438,25 @@ Karmarkar-Karp algorithm as a starting point for the randomized
 algorithms, and suggest what effect that might have. 
 (No experiments are necessary.)}
 
+\setlength{\fboxsep}{10pt}
+\fbox{\parbox{0.9\linewidth}{
+    \textbf{Solution: }
+
+    Currently, we generate a random solution for each algorithm. We could have a 
+    much better initial approximation if we ran the Karmarkar-Karp algorithm and
+    used the result as the initial solution for the randomized algorithms. We 
+    would have to edit the KK algorithm slightly to return partitions instead of
+    the residue. We could then use the partitions as the initial solution for the
+    randomized algorithms. 
+
+    This would not affect the repeated random algorithm, since it generates a 
+    random solution each time. However, it would affect the hill climbing and
+    simulated annealing algorithms. They would both start at a state closer to the
+    solution state. 
+
+}}
+
+
 Finally, the following is entirely optional;  you'll get no credit for it.
 But if you want to try something else, it's interesting to do.
 
