@@ -181,13 +181,6 @@ def main():
     flag = int(sys.argv[1])
     algo = int(sys.argv[2])
 
-    # Read the input file
-    with open(sys.argv[2], 'r') as f:
-        nums = [int(line) for line in f]
-    
-    # Generate random numbers
-    random_integers = [random.randint(1, 10**12) for _ in range(100)]
-
     if flag == 0:
         with open(sys.argv[3], 'r') as f:
             nums = [int(line) for line in f]    
