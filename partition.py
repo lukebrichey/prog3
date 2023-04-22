@@ -1,6 +1,7 @@
 import random
 import sys
 import math
+import heapq
 
 max_iter = 25000
 
@@ -21,7 +22,13 @@ def pp(nums, P):
     return abs(s1_sum - s2_sum)
 
 def Karmarkar_Karp(nums):
-    return pp(nums, list(range(1, len(nums) + 1)))
+    heap = heapq._heapify_max(nums)
+    while len(heap) > 1:
+        x = heapq._heappop_max(heap)
+        y = heapq._heappop_max(heap)
+        heapq.heappush(heap, x - y)
+
+    return heap[0]
 
 def rand_sol(n):
     return [random.randint(1, n) for _ in range(n)]
