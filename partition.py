@@ -22,13 +22,17 @@ def pp(nums, P):
     return abs(s1_sum - s2_sum)
 
 def Karmarkar_Karp(nums):
-    heap = heapq._heapify_max(nums)
+    heap = nums.copy()
+    heapq._heapify_max(heap)
+    
     while len(heap) > 1:
         x = heapq._heappop_max(heap)
         y = heapq._heappop_max(heap)
-        heapq.heappush(heap, x - y)
+        heapq.heappush(heap, abs(x - y))
 
-    return heap[0]
+    return heapq._heappop_max(heap)
+
+
 
 def rand_sol(n):
     return [random.randint(1, n) for _ in range(n)]

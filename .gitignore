@@ -3,4 +3,5 @@
 *.fls
 *.fdb_latexmk
 *.synctex.gz
-
+*.txt
+tests.py
